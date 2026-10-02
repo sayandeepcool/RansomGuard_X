@@ -1,0 +1,11 @@
+watch_paths:
+  - "/kaggle/working/RansomGuard_X/RansomGuard_Test/Documents"
+  - "/kaggle/working/RansomGuard_X/RansomGuard_Test/Projects"
+  - "/kaggle/working/RansomGuard_X/RansomGuard_Test/Database"
+honeypot_paths:
+  - "/kaggle/working/RansomGuard_X/RansomGuard_Test/Honeypot"
+window_s: 2
+step_s: 1
+entropy_sample_max: 20
+entropy_bytes: 4096
+dry_run: true
