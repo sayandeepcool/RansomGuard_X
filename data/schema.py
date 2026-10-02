@@ -1,0 +1,33 @@
+import hashlib
+import json
+import numpy as np
+
+# Window configuration
+W = 2.0
+STEP = 1.0
+WARMUP_S = 30
+HIGH_ENT = 7.2
+A_MIN = 5
+SIGMA_FLOOR = {"mod": 1.0, "write": 1e5}
+
+# 8 Missingness Groups
+NA_GROUPS = {
+ "na_events":  ["mod_rate","create_rate","delete_rate","rename_rate","rename_to_mod_ratio"],
+ "na_scope":   ["breadth","dirs_touched","delete_after_create_ratio","affected_30s"],
+ "na_ext":     ["ext_change_ratio","new_unique_ext_count"],
+ "na_write":   ["write_bytes_rate","write_bytes_per_file"],
+ "na_entropy": ["mean_entropy_sampled","entropy_delta","high_entropy_frac"],
+ "na_honeypot":["honeypot_touched","honeypot_count"],
+ "na_process": ["proc_new_rate","top_proc_write_share","top_proc_fileop_share"],
+ "na_base":    ["mod_rate_z","write_rate_z"],
+}
+
+# Feature and Column Lists
+FEATURES = [c for g in NA_GROUPS.values() for c in g]
+FLAGS    = list(NA_GROUPS)
+X_COLS   = FEATURES + FLAGS
+META = ["run_id","group_id","source","style","mode","phase","scope","scope_type",
+        "ts","label","label_quality","weight","family"]
+
+# Security & Validation Hash
+SCHEMA_HASH = hashlib.sha256(json.dumps([X_COLS, W, STEP, HIGH_ENT, SIGMA_FLOOR]).encode()).hexdigest()[:12]
