@@ -5,7 +5,7 @@ import hashlib
 import os
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.calibration import CalibratedClassifierCV
-from sklearn.model_selection import GroupShuffleSplit
+from sklearn.model_selection import GroupShuffleSplit, train_test_split
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -15,19 +15,25 @@ def train_model(data_path="/kaggle/working/RansomGuard_X/data/out/train_local.pa
     print(f"Loading dataset from {data_path}...")
     df = pd.read_parquet(data_path)
     
-    # 1. Leakage-Proof Split by run_id (70% Train, 30% Calib/Val)
-    gss = GroupShuffleSplit(n_splits=1, train_size=0.7, random_state=7)
-    train_idx, rest_idx = next(gss.split(df, groups=df['run_id']))
+    unique_runs = df['run_id'].nunique()
     
-    train = df.iloc[train_idx]
-    rest = df.iloc[rest_idx]
-    
-    # Split remaining 30% into Calibration (15%) and Validation (15%)
-    gss2 = GroupShuffleSplit(n_splits=1, train_size=0.5, random_state=7)
-    cal_idx, val_idx = next(gss2.split(rest, groups=rest['run_id']))
-    
-    calib = rest.iloc[cal_idx]
-    val = rest.iloc[val_idx]
+    # 1. Split Data (Adaptive: Group-level if >=3 runs exist, Row-level fallback if 1-2 runs)
+    if unique_runs >= 3:
+        print(f"Detected {unique_runs} unique runs. Using GroupShuffleSplit...")
+        gss = GroupShuffleSplit(n_splits=1, train_size=0.7, random_state=7)
+        train_idx, rest_idx = next(gss.split(df, groups=df['run_id']))
+        train, rest = df.iloc[train_idx], df.iloc[rest_idx]
+        
+        gss2 = GroupShuffleSplit(n_splits=1, train_size=0.5, random_state=7)
+        cal_idx, val_idx = next(gss2.split(rest, groups=rest['run_id']))
+        calib, val = rest.iloc[cal_idx], rest.iloc[val_idx]
+    else:
+        print(f"Detected {unique_runs} run_id ({df['run_id'].unique()}). Using stratified row split...")
+        strat = df['label'] if df['label'].nunique() > 1 else None
+        train, rest = train_test_split(df, train_size=0.7, random_state=7, stratify=strat)
+        
+        strat_rest = rest['label'] if rest['label'].nunique() > 1 else None
+        calib, val = train_test_split(rest, train_size=0.5, random_state=7, stratify=strat_rest)
     
     print(f"Split sizes -> Train: {len(train)} | Calib: {len(calib)} | Val: {len(val)}")
     
