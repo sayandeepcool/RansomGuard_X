@@ -1,38 +1,39 @@
-import os
-import time
-import random
 import sys
+import os
+import random
 
-def inplace_fast(target_dir, rate=20):
-    """Simulates rapid inplace file encryption."""
+# Add project root to path so 'sim' module resolves correctly
+sys.path.append("/kaggle/working/RansomGuard_X")
+
+# Import the modes
+from sim.attacks import inplace_fast, copy_delete
+from sim.benign import execute_benign_mode
+
+def get_test_files():
+    target_dir = "/kaggle/working/RansomGuard_X/RansomGuard_Test"
     files = []
     for root, _, filenames in os.walk(target_dir):
-        if "Honeypot" not in root:
-            for fn in filenames:
-                files.append(os.path.join(root, fn))
-    
+        for fn in filenames:
+            files.append(os.path.join(root, fn))
     random.shuffle(files)
-    for filepath in files:
-        try:
-            size = os.path.getsize(filepath)
-            with open(filepath, "r+b") as f:
-                f.write(os.urandom(size))
-            new_path = filepath + ".locked"
-            os.rename(filepath, new_path)
-            time.sleep(1.0 / rate)
-        except OSError:
-            pass
+    return files
 
-def zip_archive_benign(target_dir):
-    """Simulates a benign high-entropy file creation."""
-    archive_file = os.path.join(target_dir, "Documents", "backup.zip")
-    with open(archive_file, "wb") as f:
-        f.write(os.urandom(1024 * 1024 * 5))
+def dummy_log(op, src, dest=None):
+    pass 
 
 if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else "inplace_fast"
-    target = "/kaggle/working/RansomGuard_X/RansomGuard_Test"
+    files = get_test_files()
+    
     if mode == "inplace_fast":
-        inplace_fast(target)
-    elif mode == "zip_archive":
-        zip_archive_benign(target)
+        inplace_fast(files, rate=20, log_func=dummy_log)
+    elif mode == "copy_delete":
+        copy_delete(files, rate=20, log_func=dummy_log)
+    elif mode == "rename_only":
+        for p in files[:100]:
+            try:
+                os.rename(p, p + ".crypto")
+            except OSError: 
+                pass
+    else:
+        execute_benign_mode(mode, files, rate=5, log_func=dummy_log)
