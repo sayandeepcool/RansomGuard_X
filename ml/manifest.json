@@ -1,0 +1,36 @@
+{
+  "schema_hash": "3b7d118875ce",
+  "window_size": 2.0,
+  "step_size": 1.0,
+  "warmup_s": 30,
+  "timestamp": "2026-10-04T08:54:13.337424+00:00",
+  "total_valid_runs": 98,
+  "total_windows": 3540,
+  "positive_windows": 1285,
+  "negative_windows": 2255,
+  "folder_scopes": [
+    "system",
+    "Documents",
+    "Projects",
+    "Database",
+    "Honeypot"
+  ],
+  "splits": {
+    "train": 67,
+    "calib": 14,
+    "val": 14,
+    "test": 3
+  },
+  "gates": {
+    "G1_schema_consistency": "PASS",
+    "G2_allowed_labels_forbidden_columns": "PASS",
+    "G3_range_finite_checks": "PASS",
+    "G4_missingness_coverage": "PASS",
+    "G5_group_disjointness": "PASS (98 groups)",
+    "G6_golden_replay": "PASS (Max Diff: 0.0e+00)",
+    "G7_realism_check": "PASS (Simulator Distribution)",
+    "G8_public_source": "NOT_AVAILABLE",
+    "G9_quota_check": "INCOMPLETE (Attacks: {'inplace_fast': 3, 'copy_delete': 2, 'rename_only': 2, 'intermittent': 0, 'slow_low': 0, 'burst_throttled': 0, 'honeypot_avoid': 3}. Benign: {})",
+    "G10_honeypot_ablation": "PASS"
+  }
+}

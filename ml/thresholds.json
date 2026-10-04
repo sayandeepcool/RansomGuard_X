@@ -1,1 +1,7 @@
-{"alert_threshold": 0.8489686909847537}
+{
+  "T_warn": 1.0,
+  "T_high": 1.0,
+  "T_crit": 1.0,
+  "status": "NO_VALID_THRESHOLD",
+  "method": "precision_and_false_alert_budget"
+}

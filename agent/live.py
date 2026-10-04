@@ -2,6 +2,7 @@ import sys, time, json, joblib, os
 import pandas as pd
 import numpy as np
 import threading
+from api.db import log_incident
 
 sys.path.append("/kaggle/working/RansomGuard_X")
 from agent.collectors import start_file_observer, sample_process_io, EVENTS, PROC_DELTA
@@ -77,6 +78,14 @@ def run_live_agent():
                     
                     touched_files = list({e[2] for e in list(EVENTS) if e[1] == "modified" and e[0] >= now - 2.0})
                     action_result = respond(top_pid, touched_files, config)
+                    # Record the incident into the tamper-evident SQLite database
+                    log_incident(
+                        ts=now,
+                        risk=float(risk_score),
+                        process=f"PID {top_pid}",
+                        factors=reasons,
+                        action=action_result,
+                    )
                     print(f"[*] Response Action: {action_result}")
                 
                 print("[*] Threat Contained. Shutting down sensors.")
