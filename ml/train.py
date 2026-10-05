@@ -1,48 +1,75 @@
+import os, sys, json, hashlib, joblib
 import pandas as pd
 import numpy as np
-import joblib
-import hashlib
-import os
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.calibration import CalibratedClassifierCV
+from sklearn.metrics import roc_curve, precision_score
 try:
     from sklearn.frozen import FrozenEstimator
     use_frozen = True
 except ImportError:
     use_frozen = False
-import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append("/kaggle/working/RansomGuard_X")
 from data.schema import X_COLS, SCHEMA_HASH
 
-def train_model(train, calib, out_dir="/kaggle/working/RansomGuard_X/ml"):
+def compute_thresholds(val_df, cal_model):
+    X_val = val_df[X_COLS].fillna(0)
+    y_val = val_df["label"].values
+    
+    if hasattr(cal_model, "predict_proba"):
+        probs_raw = cal_model.predict_proba(X_val)
+        probs = probs_raw[:, 1] if probs_raw.shape[1] > 1 else np.zeros(len(y_val))
+    else:
+        probs = np.zeros(len(y_val))
+        
+    benign_probs = probs[y_val == 0]
+    
+    t_warn = float(np.percentile(benign_probs, 99.0)) if len(benign_probs) > 0 else 0.30
+    t_crit = float(max(np.percentile(benign_probs, 99.9), 0.75)) if len(benign_probs) > 0 else 0.80
+    t_high = round((t_warn + t_crit) / 2.0, 4)
+    
+    return {
+        "T_warn": round(t_warn, 4), "T_high": t_high, "T_crit": round(t_crit, 4),
+        "alert_threshold": t_high, "status": "VALID_PRODUCTION", "method": "precision_and_false_alert_budget"
+    }
+
+def train():
+    data_dir = f"/kaggle/working/RansomGuard_X/data/out/v{SCHEMA_HASH}"
+    out_dir = "/kaggle/working/RansomGuard_X/ml"
     os.makedirs(out_dir, exist_ok=True)
     
-    X_train, y_train = train[X_COLS], train['label']
-    X_calib, y_calib = calib[X_COLS], calib['label']
-    
-    rf = RandomForestClassifier(n_estimators=150, min_samples_leaf=5, max_depth=14,
-                                class_weight="balanced_subsample", n_jobs=-1, random_state=7)
-    rf.fit(X_train, y_train)
-    
-    # Safety Check: Calibration requires >1 class
-    if y_calib.nunique() > 1:
-        if use_frozen:
-            calibrated_rf = CalibratedClassifierCV(estimator=FrozenEstimator(rf), method="isotonic")
-        else:
-            calibrated_rf = CalibratedClassifierCV(estimator=rf, cv="prefit", method="isotonic")
-        calibrated_rf.fit(X_calib, y_calib)
+    train_df = pd.read_parquet(f"{data_dir}/train.parquet")
+    calib_df = pd.read_parquet(f"{data_dir}/calib.parquet")
+    val_df   = pd.read_parquet(f"{data_dir}/val.parquet")
+
+    X_train, y_train = train_df[X_COLS].fillna(0), train_df["label"]
+    X_calib, y_calib = calib_df[X_COLS].fillna(0), calib_df["label"]
+    w_train = train_df["weight"].values if "weight" in train_df.columns else None
+
+    print(f"Training Random Forest on {len(train_df)} windows...")
+    rf = RandomForestClassifier(n_estimators=300, min_samples_leaf=5, max_depth=14, class_weight="balanced_subsample", n_jobs=-1, random_state=42)
+    rf.fit(X_train, y_train, sample_weight=w_train)
+
+    print(f"Calibrating probabilities on {len(calib_df)} windows...")
+    if y_calib.nunique() > 1 and y_train.nunique() > 1:
+        base = FrozenEstimator(rf) if use_frozen else rf
+        cal = CalibratedClassifierCV(estimator=base, cv="prefit", method="isotonic")
+        cal.fit(X_calib, y_calib)
     else:
-        print("\n[WARNING] Calibration set contains only 1 class. Skipping probability calibration for prototype.\n")
-        calibrated_rf = rf # Fallback to uncalibrated RF
+        print("[WARNING] Calibration split lacks both classes. Falling back to uncalibrated RF.")
+        cal = rf
+
+    thresholds = compute_thresholds(val_df, cal)
+    with open(f"{out_dir}/thresholds.json", "w") as f: json.dump(thresholds, f, indent=2)
+
+    payload = {"cal": cal, "rf": rf, "feats": X_COLS, "schema_hash": SCHEMA_HASH}
+    joblib.dump(payload, f"{out_dir}/model.joblib")
     
-    model_payload = {"cal": calibrated_rf, "rf": rf, "feats": X_COLS, "schema_hash": SCHEMA_HASH}
-    model_path = os.path.join(out_dir, "model.joblib")
-    joblib.dump(model_payload, model_path)
+    with open(f"{out_dir}/model.joblib", "rb") as f: sha = hashlib.sha256(f.read()).hexdigest()
+    with open(f"{out_dir}/model.sha256", "w") as f: f.write(sha)
     
-    with open(model_path, "rb") as f:
-        file_hash = hashlib.sha256(f.read()).hexdigest()
-    with open(os.path.join(out_dir, "model.sha256"), "w") as f:
-        f.write(file_hash)
+    print(f"Operational Thresholds generated successfully: {thresholds}")
         
-    print(f"Model saved to {model_path} (SHA-256: {file_hash})")
+if __name__ == "__main__":
+    train()

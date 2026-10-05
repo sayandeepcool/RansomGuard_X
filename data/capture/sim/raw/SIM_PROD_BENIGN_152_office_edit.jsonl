@@ -1,0 +1,40 @@
+{"type": "meta", "run_id": "SIM_PROD_BENIGN_152_office_edit", "source": "simulator", "ts": 1791157393.5199606}
+{"type": "ev", "ts": 1791157388.0837142, "op": "opened", "src_id": "d89e6265807f140a.enc", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.083734, "op": "modified", "src_id": "d89e6265807f140a.enc", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.0837417, "op": "closed", "src_id": "d89e6265807f140a.enc", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.2840748, "op": "opened", "src_id": "5dc0a925de5e823d.bin", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.2840924, "op": "modified", "src_id": "5dc0a925de5e823d.bin", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.2841008, "op": "closed", "src_id": "5dc0a925de5e823d.bin", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.4843287, "op": "opened", "src_id": "ecde7ee2758e6aa6.locked", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157388.484349, "op": "modified", "src_id": "ecde7ee2758e6aa6.locked", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157388.4843595, "op": "closed", "src_id": "ecde7ee2758e6aa6.locked", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157388.684672, "op": "opened", "src_id": "bcfc9068947b58d3.enc", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.6846898, "op": "modified", "src_id": "bcfc9068947b58d3.enc", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.6846976, "op": "closed", "src_id": "bcfc9068947b58d3.enc", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.8850596, "op": "opened", "src_id": "035af8ced26e1582.locked", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.8850777, "op": "modified", "src_id": "035af8ced26e1582.locked", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157388.885086, "op": "closed", "src_id": "035af8ced26e1582.locked", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157389.0854254, "op": "opened", "src_id": "33997bc4d6457bd5.py", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157389.0854414, "op": "modified", "src_id": "33997bc4d6457bd5.py", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157389.0854495, "op": "closed", "src_id": "33997bc4d6457bd5.py", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157389.2856896, "op": "opened", "src_id": "02bf5d3a31d74666.enc", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157389.2857082, "op": "modified", "src_id": "02bf5d3a31d74666.enc", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157389.285716, "op": "closed", "src_id": "02bf5d3a31d74666.enc", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157389.4860215, "op": "opened", "src_id": "59bd26e698ba7c9d.enc", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157389.4860406, "op": "modified", "src_id": "59bd26e698ba7c9d.enc", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157389.4860485, "op": "closed", "src_id": "59bd26e698ba7c9d.enc", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157389.686301, "op": "opened", "src_id": "955cbe9f70d70ee2.locked", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157389.6863194, "op": "modified", "src_id": "955cbe9f70d70ee2.locked", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157389.6863701, "op": "closed", "src_id": "955cbe9f70d70ee2.locked", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157389.8865762, "op": "opened", "src_id": "8bc8fcc2327d9463.enc", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157389.886602, "op": "modified", "src_id": "8bc8fcc2327d9463.enc", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157389.8866096, "op": "closed", "src_id": "8bc8fcc2327d9463.enc", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157390.0867777, "op": "opened", "src_id": "c737c8c6fecf52b8.bin", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157390.0867946, "op": "modified", "src_id": "c737c8c6fecf52b8.bin", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157390.0868022, "op": "closed", "src_id": "c737c8c6fecf52b8.bin", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791157390.2870977, "op": "opened", "src_id": "fdbc608c6bc3bbb6.csv", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157390.2871149, "op": "modified", "src_id": "fdbc608c6bc3bbb6.csv", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791157390.287123, "op": "closed", "src_id": "fdbc608c6bc3bbb6.csv", "dest_id": null, "hp": false}
+{"type": "io", "ts": 1791157388.937553, "pid": 2438, "pname": "python3", "dwrite": 20480}
+{"type": "io", "ts": 1791157389.9390068, "pid": 2438, "pname": "python3", "dwrite": 24576}
+{"type": "io", "ts": 1791157390.9403656, "pid": 305, "pname": "python3", "dwrite": 53248}

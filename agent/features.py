@@ -1,64 +1,85 @@
 import numpy as np
 import os
-from collections import Counter
 from agent.entropy import shannon
 
-def extract(events, proc_deltas, scope_files, hp_dirs, base, prior_entropy, t0, t1, W=2.0):
-    ev = [e for e in events if t0 <= e[0] < t1]
+def extract_v2(events, io_deltas, proc_records, ent_records, scope_files, hp_dirs, base, prior_entropy, t0, t1):
+    win_evs = [e for e in events if t0 <= e[0] < t1]
+    win_io = [d for d in io_deltas if t0 <= d[0] < t1]
+    W = t1 - t0
+    feats = {}
     
-    c = Counter(e[1] for e in ev)
-    mods, ren = c["modified"], c.get("moved", 0)
+    # 1. Event Rates & Ratios
+    mod_c = sum(1 for e in win_evs if e[1] in ["modified"])
+    cre_c = sum(1 for e in win_evs if e[1] == "created")
+    del_c = sum(1 for e in win_evs if e[1] == "deleted")
+    ren_c = sum(1 for e in win_evs if e[1] == "moved")
     
-    touched = {e[2] for e in ev} | {e[3] for e in ev if len(e) > 3 and e[3]}
-    ext_chg = sum(1 for e in ev if e[1]=="moved" and len(e) > 3 and e[3] and
-                  os.path.splitext(e[2])[1].lower() != os.path.splitext(e[3])[1].lower())
+    feats["mod_rate"] = mod_c / W
+    feats["create_rate"] = cre_c / W
+    feats["delete_rate"] = del_c / W
+    feats["rename_rate"] = ren_c / W
+    feats["rename_to_mod_ratio"] = (ren_c / mod_c) if mod_c > 0 else np.nan
     
-    hp = [e for e in ev if any(h in e[2] for h in hp_dirs)]
+    historical_cre = set(e[2] for e in events if e[1] == "created" and e[0] < t1)
+    del_after_cre = sum(1 for e in win_evs if e[1] == "deleted" and e[2] in historical_cre)
+    feats["delete_after_create_ratio"] = (del_after_cre / cre_c) if cre_c > 0 else np.nan
     
-    wr = [d for d in proc_deltas if t0 <= d[0] < t1]
-    tot = sum(d[3] for d in wr) or 0
-    top = max((sum(d[3] for d in wr if d[1]==pid), pid) for pid in {d[1] for d in wr})[0] if wr else 0
+    # 2. Scope Breadth
+    unique_files = set(e[2] for e in win_evs if e[2]) | set(e[3] for e in win_evs if e[3])
+    unique_dirs = set(os.path.dirname(p) for p in unique_files if p)
+    feats["breadth"] = len(unique_files) / max(scope_files, 1)
+    feats["dirs_touched"] = len(unique_dirs)
     
-    ds = []
-    sampled_count = 0
-    high_ent_count = 0
-    for p in list({e[2] for e in ev if e[1]=="modified"})[:20]:
-        h = shannon(p)
-        if h is not None:
-            if p in prior_entropy:
-                ds.append(h - prior_entropy[p])
-            prior_entropy[p] = h
-            sampled_count += 1
-            if h > 7.2:
-                high_ent_count += 1
-                
-    n = max(len(touched), 1)
+    evs_30s = [e for e in events if (t1 - 30) <= e[0] < t1]
+    feats["affected_30s"] = len(set(e[2] for e in evs_30s if e[2]) | set(e[3] for e in evs_30s if e[3]))
     
-    f = dict(
-        mod_rate=mods/W, 
-        create_rate=c.get("created", 0)/W, 
-        delete_rate=c.get("deleted", 0)/W, 
-        rename_rate=ren/W,
-        breadth=len(touched)/max(scope_files, 1), 
-        dirs_touched=len({os.path.dirname(p) for p in touched}),
-        rename_to_mod_ratio=ren/max(mods, 1), 
-        ext_change_ratio=ext_chg/n,
-        write_bytes_rate=tot/W, 
-        write_bytes_per_file=tot/n,
-        mean_entropy_sampled=float(np.mean(ds)) if ds else np.nan,
-        entropy_delta=float(np.mean(ds)) if ds else np.nan,
-        high_entropy_frac=(high_ent_count / sampled_count) if sampled_count else np.nan,
-        honeypot_touched=int(bool(hp)), 
-        honeypot_count=len(hp),
-        top_proc_write_share=(top/tot) if tot else 0.0,
-        delete_after_create_ratio=0.0,
-        new_unique_ext_count=ext_chg,
-        proc_new_rate=0.0,
-        top_proc_fileop_share=0.0,
-        affected_30s=len(touched)
-    )
+    # 3. Extensions
+    exts = set(os.path.splitext(p)[1] for p in unique_files if p)
+    feats["ext_change_ratio"] = (len(exts) / len(unique_files)) if unique_files else np.nan
+    feats["new_unique_ext_count"] = len(exts)
     
-    f["mod_rate_z"] = (f["mod_rate"] - base["mod_mu"]) / max(base["mod_sd"], 1.0)
-    f["write_rate_z"] = (f["write_bytes_rate"] - base["wr_mu"]) / max(base["wr_sd"], 1e5)
+    # 4. Storage Write Metrics
+    total_write = sum(d[3] for d in win_io)
+    feats["write_bytes_rate"] = total_write / W
+    feats["write_bytes_per_file"] = (total_write / len(unique_files)) if unique_files else np.nan
     
-    return f
+    # 5. Shannon Entropy Jump
+    win_ent = [e for e in ent_records if t0 <= e[0] < t1] if ent_records else []
+    if win_ent:
+        feats["mean_entropy_sampled"] = float(np.mean([e[2] for e in win_ent]))
+        deltas = [e[2] - prior_entropy.get(e[1], 0) for e in win_ent if e[1] in prior_entropy]
+        feats["entropy_delta"] = float(np.mean(deltas)) if deltas else np.nan
+        feats["high_entropy_frac"] = sum(1 for e in win_ent if e[2] >= 7.2) / len(win_ent)
+    else:
+        feats["mean_entropy_sampled"] = np.nan
+        feats["entropy_delta"] = np.nan
+        feats["high_entropy_frac"] = np.nan
+        
+    # 6. Honeypot Decoys
+    hp_touched = sum(1 for p in unique_files if any(hp in p for hp in hp_dirs))
+    feats["honeypot_touched"] = 1 if hp_touched > 0 else 0
+    feats["honeypot_count"] = hp_touched
+    
+    # 7. Process Attribution
+    pids = set(d[1] for d in win_io)
+    win_proc = [p for p in proc_records if t0 <= p[0] < t1] if proc_records else []
+    feats["proc_new_rate"] = len(win_proc) / W if proc_records else np.nan
+    if win_io:
+        top_pid_write = max([sum(d[3] for d in win_io if d[1] == pid) for pid in pids] + [0])
+        feats["top_proc_write_share"] = (top_pid_write / total_write) if total_write > 0 else np.nan
+        top_pid_ops = max([sum(1 for d in win_io if d[1] == pid) for pid in pids] + [0])
+        feats["top_proc_fileop_share"] = top_pid_ops / len(win_io)
+    else:
+        feats["top_proc_write_share"] = np.nan
+        feats["top_proc_fileop_share"] = np.nan
+        
+    # 8. Adaptive Baseline Z-Scores
+    base_mod = base.get("mod_rate_mean", 0) if base else 0
+    base_mod_std = max(base.get("mod_rate_std", 1), 1.0) if base else 1.0
+    feats["mod_rate_z"] = (feats["mod_rate"] - base_mod) / base_mod_std
+    
+    base_w = base.get("write_rate_mean", 0) if base else 0
+    base_w_std = max(base.get("write_rate_std", 1), 100000.0) if base else 100000.0
+    feats["write_rate_z"] = (feats["write_bytes_rate"] - base_w) / base_w_std
+    
+    return feats

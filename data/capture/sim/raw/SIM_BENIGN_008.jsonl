@@ -1,7 +1,0 @@
-{"type": "meta", "run_id": "SIM_BENIGN_008", "source": "simulator", "ts": 1791044158.0619318}
-{"type": "meta", "run_id": "SIM_BENIGN_008", "source": "simulator", "ts": 1791045254.5306413}
-{"type": "ev", "ts": 1791045252.5982413, "op": "created", "src_id": "223b9154f4d95493.zip", "dest_id": null, "hp": false}
-{"type": "ev", "ts": 1791045252.5982728, "op": "opened", "src_id": "223b9154f4d95493.zip", "dest_id": null, "hp": false}
-{"type": "ev", "ts": 1791045252.6011128, "op": "modified", "src_id": "223b9154f4d95493.zip", "dest_id": null, "hp": false}
-{"type": "ev", "ts": 1791045252.601126, "op": "closed", "src_id": "223b9154f4d95493.zip", "dest_id": null, "hp": false}
-{"type": "io", "ts": 1791045253.5288284, "pid": 514, "pname": "python3", "dwrite": 524288}
