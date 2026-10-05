@@ -1,1 +1,1 @@
-{"run_id": "SIM_PROD_BENIGN_160_sync_client", "style": "sync_client", "mode": "benign", "valid": true, "onset_ts": 1791157693.0584738, "end_ts": 1791157694.07624, "phase": "benign", "seed": 202, "gt_events": []}
+{"run_id": "SIM_PROD_BENIGN_160_sync_client", "style": "sync_client", "mode": "benign", "valid": true, "onset_ts": 1791172032.5400631, "end_ts": 1791172033.610149, "phase": "benign", "seed": 202, "gt_events": []}

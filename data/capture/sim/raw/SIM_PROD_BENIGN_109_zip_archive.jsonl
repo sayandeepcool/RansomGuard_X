@@ -1,6 +1,6 @@
-{"type": "meta", "run_id": "SIM_PROD_BENIGN_109_zip_archive", "source": "simulator", "ts": 1791155753.2660964}
-{"type": "ev", "ts": 1791155749.7299945, "op": "created", "src_id": "2b6a5367d0d52742.zip", "dest_id": null, "hp": false}
-{"type": "ev", "ts": 1791155749.7300239, "op": "opened", "src_id": "2b6a5367d0d52742.zip", "dest_id": null, "hp": false}
-{"type": "ev", "ts": 1791155749.7315629, "op": "modified", "src_id": "2b6a5367d0d52742.zip", "dest_id": null, "hp": false}
-{"type": "ev", "ts": 1791155749.7315776, "op": "closed", "src_id": "2b6a5367d0d52742.zip", "dest_id": null, "hp": false}
-{"type": "io", "ts": 1791155750.5851312, "pid": 305, "pname": "python3", "dwrite": 262144}
+{"type": "meta", "run_id": "SIM_PROD_BENIGN_109_zip_archive", "source": "simulator", "ts": 1791170078.8751912}
+{"type": "ev", "ts": 1791170075.3031814, "op": "created", "src_id": "eade33b7e63b1cb3.zip", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791170075.3032112, "op": "opened", "src_id": "eade33b7e63b1cb3.zip", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791170075.3041458, "op": "modified", "src_id": "eade33b7e63b1cb3.zip", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791170075.304165, "op": "closed", "src_id": "eade33b7e63b1cb3.zip", "dest_id": null, "hp": false}
+{"type": "io", "ts": 1791170076.1392324, "pid": 201, "pname": "python3", "dwrite": 262144}

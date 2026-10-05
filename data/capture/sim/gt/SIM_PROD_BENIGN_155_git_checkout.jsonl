@@ -1,1 +1,1 @@
-{"run_id": "SIM_PROD_BENIGN_155_git_checkout", "style": "git_checkout", "mode": "benign", "valid": true, "onset_ts": 1791157501.3763783, "end_ts": 1791157502.143789, "phase": "benign", "seed": 197, "gt_events": []}
+{"run_id": "SIM_PROD_BENIGN_155_git_checkout", "style": "git_checkout", "mode": "benign", "valid": true, "onset_ts": 1791171839.697396, "end_ts": 1791171840.4654183, "phase": "benign", "seed": 197, "gt_events": []}

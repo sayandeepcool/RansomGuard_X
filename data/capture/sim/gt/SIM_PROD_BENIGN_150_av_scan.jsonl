@@ -1,1 +1,1 @@
-{"run_id": "SIM_PROD_BENIGN_150_av_scan", "style": "av_scan", "mode": "benign", "valid": true, "onset_ts": 1791157310.339182, "end_ts": 1791157311.0056653, "phase": "benign", "seed": 192, "gt_events": []}
+{"run_id": "SIM_PROD_BENIGN_150_av_scan", "style": "av_scan", "mode": "benign", "valid": true, "onset_ts": 1791171647.4985867, "end_ts": 1791171648.2162993, "phase": "benign", "seed": 192, "gt_events": []}
