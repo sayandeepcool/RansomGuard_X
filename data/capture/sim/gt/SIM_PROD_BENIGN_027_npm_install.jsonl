@@ -1,0 +1,1 @@
+{"run_id": "SIM_PROD_BENIGN_027_npm_install", "style": "npm_install", "mode": "benign", "valid": true, "onset_ts": 1791172749.0780578, "end_ts": 1791172749.7463245, "phase": "benign", "seed": 69, "gt_events": []}

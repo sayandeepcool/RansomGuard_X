@@ -1,0 +1,7 @@
+{"type": "meta", "run_id": "SIM_PROD_BENIGN_024_zip_archive", "source": "simulator", "ts": 1791172641.451582}
+{"type": "ev", "ts": 1791172637.903223, "op": "created", "src_id": "72b3bdecf89b060d.zip", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791172637.9032497, "op": "opened", "src_id": "72b3bdecf89b060d.zip", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791172637.9046946, "op": "modified", "src_id": "72b3bdecf89b060d.zip", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791172637.904713, "op": "closed", "src_id": "72b3bdecf89b060d.zip", "dest_id": null, "hp": false}
+{"type": "io", "ts": 1791172606.778862, "pid": 9, "pname": "python3", "dwrite": 274432}
+{"type": "io", "ts": 1791172638.8241901, "pid": 2756, "pname": "python3", "dwrite": 262144}
