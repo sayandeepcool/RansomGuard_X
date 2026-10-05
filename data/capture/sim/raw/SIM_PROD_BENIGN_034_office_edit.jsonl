@@ -1,0 +1,40 @@
+{"type": "meta", "run_id": "SIM_PROD_BENIGN_034_office_edit", "source": "simulator", "ts": 1791159831.6386106}
+{"type": "ev", "ts": 1791159826.1736395, "op": "opened", "src_id": "5fbe6dd64c7ea197.csv", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159826.173658, "op": "modified", "src_id": "5fbe6dd64c7ea197.csv", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159826.1736655, "op": "closed", "src_id": "5fbe6dd64c7ea197.csv", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159826.3739612, "op": "opened", "src_id": "d949956e6c08d968.bin", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791159826.373981, "op": "modified", "src_id": "d949956e6c08d968.bin", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791159826.3739886, "op": "closed", "src_id": "d949956e6c08d968.bin", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791159826.5743744, "op": "opened", "src_id": "f80bd651bce991c6.bin", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159826.574419, "op": "modified", "src_id": "f80bd651bce991c6.bin", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159826.5744278, "op": "closed", "src_id": "f80bd651bce991c6.bin", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159826.7747436, "op": "opened", "src_id": "ea95bbb1b790025a.docx", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159826.774758, "op": "modified", "src_id": "ea95bbb1b790025a.docx", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159826.7747655, "op": "closed", "src_id": "ea95bbb1b790025a.docx", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159826.9749665, "op": "opened", "src_id": "2217d0e8ba1349da.py", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791159826.974992, "op": "modified", "src_id": "2217d0e8ba1349da.py", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791159826.9750001, "op": "closed", "src_id": "2217d0e8ba1349da.py", "dest_id": null, "hp": true}
+{"type": "ev", "ts": 1791159827.1754162, "op": "opened", "src_id": "09b4f309cdda0819.json", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.1754317, "op": "modified", "src_id": "09b4f309cdda0819.json", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.1754396, "op": "closed", "src_id": "09b4f309cdda0819.json", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.3755956, "op": "opened", "src_id": "4bfa87df4825a0a7.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.3756125, "op": "modified", "src_id": "4bfa87df4825a0a7.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.3756206, "op": "closed", "src_id": "4bfa87df4825a0a7.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.5761058, "op": "opened", "src_id": "408af12c28f318fe.py", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.576127, "op": "modified", "src_id": "408af12c28f318fe.py", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.576138, "op": "closed", "src_id": "408af12c28f318fe.py", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.7762213, "op": "opened", "src_id": "7fb57582e5125397.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.7762384, "op": "modified", "src_id": "7fb57582e5125397.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.7762456, "op": "closed", "src_id": "7fb57582e5125397.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.9766188, "op": "opened", "src_id": "0fe08299e21dc827.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.9766374, "op": "modified", "src_id": "0fe08299e21dc827.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159827.9766452, "op": "closed", "src_id": "0fe08299e21dc827.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159828.1767807, "op": "opened", "src_id": "ee3243d47a44f37a.bin", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159828.1767988, "op": "modified", "src_id": "ee3243d47a44f37a.bin", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159828.176807, "op": "closed", "src_id": "ee3243d47a44f37a.bin", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159828.3771353, "op": "opened", "src_id": "0be88f098ce53963.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159828.377151, "op": "modified", "src_id": "0be88f098ce53963.txt", "dest_id": null, "hp": false}
+{"type": "ev", "ts": 1791159828.377158, "op": "closed", "src_id": "0be88f098ce53963.txt", "dest_id": null, "hp": false}
+{"type": "io", "ts": 1791159827.1103377, "pid": 3055, "pname": "python3", "dwrite": 20480}
+{"type": "io", "ts": 1791159828.1118486, "pid": 3055, "pname": "python3", "dwrite": 20480}
+{"type": "io", "ts": 1791159829.1132758, "pid": 2872, "pname": "python3", "dwrite": 49152}

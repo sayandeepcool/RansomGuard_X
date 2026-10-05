@@ -1,25 +1,12 @@
 {
   "schema_hash": "3b7d118875ce",
-  "window_size": 2.0,
-  "step_size": 1.0,
-  "warmup_s": 30,
-  "timestamp": "2026-10-04T23:55:57.140742+00:00",
-  "total_windows": 6290,
-  "positive_windows": 3840,
-  "negative_windows": 2450,
-  "groups": 112,
-  "splits": {
-    "train": 4760,
-    "calib": 665,
-    "val": 865,
-    "test": 0
-  },
+  "total_windows": 6860,
   "gates": {
     "G1_schema_consistency": "PASS",
     "G2_allowed_labels_forbidden_columns": "PASS",
     "G3_range_finite_checks": "PASS",
     "G4_missingness_coverage": "PASS",
-    "G5_group_disjointness": "PASS (112 groups)",
+    "G5_group_disjointness": "PASS (134 groups)",
     "G6_golden_replay": "PASS",
     "G7_realism_check": "PASS (Simulator Distribution)",
     "G8_public_source": "NOT_AVAILABLE",

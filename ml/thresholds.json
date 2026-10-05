@@ -1,8 +1,6 @@
 {
-  "T_warn": 0.5589,
-  "T_high": 0.6545,
+  "T_warn": 0.5483,
+  "T_high": 0.6491,
   "T_crit": 0.75,
-  "alert_threshold": 0.6545,
-  "status": "VALID_PRODUCTION",
-  "method": "precision_and_false_alert_budget"
+  "alert_threshold": 0.6491
 }
